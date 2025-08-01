@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-
+ 
 jobs:
   build-run-push:
     runs-on: self-hosted  # 👈 use your self-hosted runner
