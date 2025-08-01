@@ -20,10 +20,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/node-application:latest .
+        run: sudo docker build -t ${{ secrets.DOCKER_USERNAME }}/node-application:latest .
 
       - name: Run Docker Container
-        run: docker run -d --name mycontainer -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/node-application:latest
+        run: sudo docker run -d --name mycontainer -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/node-application:latest
 
       - name: Push to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/node-application:latest
+        run: sudo docker push ${{ secrets.DOCKER_USERNAME }}/node-application:latest
