@@ -1,45 +1,33 @@
-name: Build and Push Node App Docker Image
+name: Build, Run, and Push Docker Image
 
-on: 
-  push: 
+on:
+  push:
     branches:
-      - main  # Run on every push to main branch
- 
+      - main
+
 jobs:
-  build-and-push:
-    runs-on: self-hosted 
+  build-run-push:
+    runs-on: self-hosted  # 👈 use your self-hosted runner
 
     steps:
-      # Step 1: Checkout the code
-      - name: Clone Repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
+      # OPTIONAL: Setup Buildx if needed
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Set up Docker
-        uses: docker/setup-docker-action@v2  # 👈 Fix: Gives correct Docker access
-
-      # Step 3: Log in to Docker Hub
-      - name: Login to Docker Hub
+      - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 4: Build Docker image
       - name: Build Docker Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/node-application:latest .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/node-application:latest .
 
-      # Step 5: Run Docker Container (optional test step)
-      - name: Run Container
-        run: |
-          docker run -d -p 3000:3000 --name my-node-container1 ${{ secrets.DOCKER_USERNAME }}/node-application:latest
-          sleep 10
-          docker logs my-node-container1
+      - name: Run Docker Container
+        run: docker run -d --name mycontainer -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/node-application:latest
 
-      # Step 6: Push Docker image to Docker Hub
       - name: Push to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/node-application:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/node-application:latest
