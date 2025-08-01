@@ -28,16 +28,16 @@ jobs:
       # Step 4: Build Docker image
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/node-app:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/node-application:latest .
 
       # Step 5: Run Docker Container (optional test step)
       - name: Run Container
         run: |
-          docker run -d -p 3000:3000 --name my-node-container ${{ secrets.DOCKER_USERNAME }}/node-app:latest
+          docker run -d -p 3000:3000 --name my-node-container1 ${{ secrets.DOCKER_USERNAME }}/node-application:latest
           sleep 10
-          docker logs my-node-container
+          docker logs my-node-container1
 
       # Step 6: Push Docker image to Docker Hub
       - name: Push to Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/node-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/node-application:latest
