@@ -1,6 +1,6 @@
 name: Build and Push Node App Docker Image
 
-on:
+on: 
   push:
     branches:
       - main  # Run on every push to main branch
